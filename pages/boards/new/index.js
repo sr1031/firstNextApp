@@ -33,12 +33,19 @@ import {
 } from '../../../styles/section01/boards-new/01-boards-style';
 import { useState } from 'react';
 
-export default function regist() {
+export default function RegistPage() {
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    // const []
+    const [address, setAddress] = useState('');
+    const [ytLink, setYtLink] = useState('');
+    const [image, setImage] = useState([]);
+    const [mainOption, setMainOption] = useState('');
+
+    const onChangeInput = (setFunc) => (event) => {
+        setFunc(event.target.value);
+    };
 
     return (
         <>
@@ -57,11 +64,14 @@ export default function regist() {
                         <WrapperInfo>
                             <WrapperUser column>
                                 <Label>작성자</Label>
-                                <Input placeholder='이름을 적어주세요'></Input>
+                                <Input
+                                    placeholder="이름을 적어주세요"
+                                    onChange={onChangeInput(setUserName)}
+                                />
                             </WrapperUser>
                             <WrapperUser column>
                                 <Label>비밀번호</Label>
-                                <Input placeholder='비밀번호를 입력해주세요'></Input>
+                                <Input placeholder="비밀번호를 입력해주세요"></Input>
                             </WrapperUser>
                         </WrapperInfo>
                         <Title column>
