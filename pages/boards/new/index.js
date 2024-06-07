@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import { Global } from '@emotion/react';
-import { global } from '../../../styles/section01/boards-new/globals';
+import Head from "next/head";
+import { Global } from "@emotion/react";
+import { global } from "../../../styles/section01/boards-new/globals";
 import {
     Base,
     Container,
@@ -15,36 +15,44 @@ import {
     TextBox,
     Address,
     AddressCheckWrapper,
-    DisplayAddress,
-    AddressCheck,
+    LoadAddressInput,
+    PostNumInput,
     AddressCheckBtn,
-    AddressInput,
+    DetailAddressInput,
     Youtube,
-    YoutubeInput,
+    YoutubeLinkInput,
     ImageUpload,
     UploadTitle,
     WrapperUploadBtn,
     UploadBtn,
     MainOption,
     WrapperOptionRadio,
+    OnImage,
     OptionRadio,
     WrapperRegistBtn,
     RegistBtn,
-} from '../../../styles/section01/boards-new/01-boards-style';
-import { useState } from 'react';
+} from "../../../styles/section01/boards-new/01-boards-style";
+import { useState } from "react";
+import PopUpPage from "./pop/popup";
 
 export default function RegistPage() {
-    const [userName, setUserName] = useState('');
-    const [userPassword, setUserPassword] = useState('');
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [address, setAddress] = useState('');
-    const [ytLink, setYtLink] = useState('');
+    const [userName, setUserName] = useState("");
+    const [userPassword, setUserPassword] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [address, setAddress] = useState("");
+    const [ytLink, setYtLink] = useState("");
     const [image, setImage] = useState([]);
-    const [mainOption, setMainOption] = useState('');
+    const [mainOption, setMainOption] = useState("");
 
     const onChangeInput = (setFunc) => (event) => {
         setFunc(event.target.value);
+    };
+
+    const clickModal = () => {
+        console.log("1");
+        setShowModal(!showModal);
     };
 
     return (
@@ -71,7 +79,10 @@ export default function RegistPage() {
                             </WrapperUser>
                             <WrapperUser column>
                                 <Label>비밀번호</Label>
-                                <Input placeholder="비밀번호를 입력해주세요"></Input>
+                                <Input
+                                    placeholder="비밀번호를 입력해주세요"
+                                    onChange={onChangeInput(setUserPassword)}
+                                />
                             </WrapperUser>
                         </WrapperInfo>
                         <Title column>
@@ -79,24 +90,30 @@ export default function RegistPage() {
                             <Input
                                 type="text"
                                 placeholder="제목을 작성해주세요"
+                                onChange={onChangeInput(setTitle)}
                             ></Input>
                         </Title>
                         <Content column>
                             <Label>내용</Label>
-                            <TextBox placeholder="내용을 입력해주세요"></TextBox>
+                            <TextBox
+                                placeholder="내용을 입력해주세요"
+                                onChange={onChangeInput(setContent)}
+                            />
                         </Content>
                         <Address column>
                             <Label>주소</Label>
                             <AddressCheckWrapper>
-                                <AddressCheck></AddressCheck>
-                                <AddressCheckBtn>우편번호 검색</AddressCheckBtn>
+                                <PostNumInput />
+                                <AddressCheckBtn onClick={clickModal}>
+                                    우편번호 검색
+                                </AddressCheckBtn>
                             </AddressCheckWrapper>
-                            <DisplayAddress></DisplayAddress>
-                            <AddressInput></AddressInput>
+                            <LoadAddressInput />
+                            <DetailAddressInput />
                         </Address>
                         <Youtube column>
                             <Label>유튜브</Label>
-                            <YoutubeInput placeholder="링크를 복사해주세요"></YoutubeInput>
+                            <YoutubeLinkInput placeholder="링크를 복사해주세요" />
                         </Youtube>
                         <ImageUpload column>
                             <UploadTitle>사진 첨부</UploadTitle>
@@ -122,20 +139,20 @@ export default function RegistPage() {
                                     <OptionRadio
                                         type="radio"
                                         id="youtube"
-                                        value={'youtube'}
+                                        value={"youtube"}
                                         name="mainOption"
                                     />
-                                    <div></div>
+                                    <img src="/bt_radio_on.png"></img>
                                     <span>유튜브</span>
                                 </label>
                                 <label htmlFor="image">
                                     <OptionRadio
                                         type="radio"
                                         id="image"
-                                        value={'image'}
+                                        value={"image"}
                                         name="mainOption"
                                     />
-                                    <div></div>
+                                    <img src="/bt_radio_on.png"></img>
                                     <span>이미지</span>
                                 </label>
                             </WrapperOptionRadio>
@@ -146,6 +163,8 @@ export default function RegistPage() {
                     </Wrapper>
                 </Container>
             </Base>
+            {showModal && <PopUpPage showModal={showModal} clickModal={clickModal}></PopUpPage>}
         </>
     );
 }
+

@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 export const cssFlexBox = (props) =>
     css`
@@ -17,3 +17,30 @@ export const cssTextInput = css`
         font-size: 16px;
     }
 `;
+
+const fadeIn = keyframes`
+    0% {
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+`;
+
+const fadeOut = keyframes`
+    0% {
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
+    }
+`;
+
+export const fadeCss = (props) => css`
+    visibility: ${props.show? "visible" : "hidden"};
+    animation: ${props.show? fadeIn : fadeOut} 0.7s ease-in-out;
+    transition: visibility 0.7s ease-in-out;
+`;
+

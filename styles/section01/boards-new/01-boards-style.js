@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import { cssFlexBox, cssTextInput } from "./insertCss";
 
 export const Base = styled.div`
@@ -11,7 +12,6 @@ export const Container = styled.div({
     width: "1200px",
     marginTop: "30px",
     boxShadow: "0px 4px 20px 0px #00000033",
-
 });
 
 export const Wrapper = styled("div")`
@@ -85,19 +85,12 @@ export const AddressCheckWrapper = styled.div`
     ${cssFlexBox};
 `;
 
-export const AddressCheck = styled.div`
+export const PostNumInput = styled.input`
     ${cssTextInput}
     width: 77px;
     height: 52px;
-    position: relative;
-    &:after {
-        content: "500000";
-        font-size: 16px;
-        position: absolute;
-        top: 0.7rem;
-        left: -1.2rem;
-        color: #bdbdbd;
-    }
+    pointer-events: none;
+    color: #bdbdbd;
 `;
 
 export const AddressCheckBtn = styled.button`
@@ -109,12 +102,14 @@ export const AddressCheckBtn = styled.button`
     cursor: pointer;
 `;
 
-export const DisplayAddress = styled.div`
+export const LoadAddressInput = styled.input`
     ${cssTextInput}
     height: 52px;
+    margin-bottom: 16px;
+    pointer-events: none;
 `;
 
-export const AddressInput = styled.input`
+export const DetailAddressInput = styled.input`
     ${cssTextInput}
     height: 52px;
 `;
@@ -126,7 +121,7 @@ export const Youtube = styled.div`
     margin-bottom: 40px;
 `;
 
-export const YoutubeInput = styled.input`
+export const YoutubeLinkInput = styled.input`
     ${cssTextInput}
     height: 52px;
     font-weight: 400;
@@ -175,66 +170,65 @@ export const UploadBtn = styled.button`
 
 export const MainOption = styled.div`
     ${cssFlexBox}
-    width: 159px;
     height: 64px;
     margin-bottom: 80px;
 `;
 
 export const WrapperOptionRadio = styled.div`
     ${cssFlexBox}
-    & div {
-        display: none;
-    }
-
-    & label {
-        position: relative;
-        cursor: pointer;
-        font-size: 16px;
-    }
 
     & * {
         vertical-align: middle;
     }
 
-    & > label:nth-of-type(1) {
-        margin-right: 10px;
+    & label {
+        cursor: pointer;
+        font-size: 16px;
+        position: relative;
+        width: 100px;
     }
 
-    & > label span {
-        margin-left: 5px;
-        font-weight: 500;
+    & > label > img {
+        display: none;
+    }
+
+    & > label > span{
+        position: absolute;
+        top: 0;
+        left: 27px;
     }
 `;
 
 export const OptionRadio = styled.input`
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    aspect-ratio: 1 / 1;
     border: 1px solid #ffd600;
-    border-radius: 50%;
+    border-radius: 60%;
 
-    &:checked+div {
-        display: block;
-        width: 0.7rem;
-        height: 0.7rem;
-        background-color: #ffd600;
+    &:checked + img {
+        display: block;     
         position: absolute;
-        top: 8px;
-        left: 4.5px;
-        border-radius: 50%;
+        top: 3px;
+        left: -2px;
+    }
+
+    &:checked {
+        display: none;
     }
 `;
 
 export const WrapperRegistBtn = styled.div`
     ${cssFlexBox}
     justify-content: center;
-`
+`;
 
 export const RegistBtn = styled.button`
     width: 179px;
     height: 52px;
-    background-color: #FFD600;
+    background-color: #ffd600;
     border: none;
     cursor: pointer;
     font-weight: 500;
 `;
+
