@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { cssFlexBox, cssTextInput } from "./insertCss";
 
 export const Base = styled.div`
@@ -11,7 +10,7 @@ export const Base = styled.div`
 export const Container = styled.div({
     width: "1200px",
     marginTop: "30px",
-    boxShadow: "0px 4px 20px 0px #00000033",
+    boxShadow: "0px 4px 20px 0px #00000033"
 });
 
 export const Wrapper = styled("div")`
@@ -37,12 +36,10 @@ export const WrapperInfo = styled.div`
 export const WrapperUser = styled.div`
     ${cssFlexBox}
     width: 482px;
-    height: 92px;
 `;
 
 export const Title = styled.div`
     width: 996px;
-    height: 92px;
     ${cssFlexBox}
     margin-bottom: 40px;
 `;
@@ -58,15 +55,21 @@ export const Input = styled.input`
     font-size: 16px;
 `;
 
+export const ErrorValidate = styled.div`
+    color: red;
+    font-size: 16px;
+    display: ${(props) => props.isDp? "block" : "none"};
+`;
+
 export const Content = styled.div`
     width: 996px;
-    height: 520px;
     ${cssFlexBox}
     margin-bottom: 16px;
 `;
 
 export const TextBox = styled.textarea`
     ${cssTextInput}
+    height: 480px;
     resize: none;
     padding: 20px 0px;
 `;
@@ -155,7 +158,7 @@ export const UploadBtn = styled.button`
     height: 78px;
     background-color: #bdbdbd;
     border: none;
-    cursor: pointer;
+    position: relative;
     & > div {
         font-size: 12px;
         font-weight: 500;
@@ -166,6 +169,17 @@ export const UploadBtn = styled.button`
         font-size: 30px;
         line-height: 28px;
     }
+`;
+
+export const FileInput = styled.input`
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
 `;
 
 export const MainOption = styled.div`
@@ -188,11 +202,7 @@ export const WrapperOptionRadio = styled.div`
         width: 100px;
     }
 
-    & > label > img {
-        display: none;
-    }
-
-    & > label > span{
+    & > label > span {
         position: absolute;
         top: 0;
         left: 27px;
@@ -201,21 +211,14 @@ export const WrapperOptionRadio = styled.div`
 
 export const OptionRadio = styled.input`
     appearance: none;
-    width: 19px;
-    aspect-ratio: 1 / 1;
-    border: 1px solid #ffd600;
-    border-radius: 60%;
-
-    &:checked + img {
-        display: block;     
-        position: absolute;
-        top: 3px;
-        left: -2px;
-    }
 
     &:checked {
         display: none;
     }
+`;
+
+export const OptionImage = styled.img`
+    content: url(${(props) => props.url});
 `;
 
 export const WrapperRegistBtn = styled.div`

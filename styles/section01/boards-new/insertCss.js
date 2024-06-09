@@ -8,7 +8,7 @@ export const cssFlexBox = (props) =>
 
 export const cssTextInput = css`
     width: 100%;
-    height: 100%;
+    height: 52px;
     border: 1px solid #bdbdbd;
     text-indent: 30px;
     font-size: 16px;

@@ -11,6 +11,7 @@ import {
     Title,
     Label,
     Input,
+    ErrorValidate,
     Content,
     TextBox,
     Address,
@@ -25,17 +26,19 @@ import {
     UploadTitle,
     WrapperUploadBtn,
     UploadBtn,
+    FileInput,
     MainOption,
     WrapperOptionRadio,
-    OnImage,
+    OptionImage,
     OptionRadio,
     WrapperRegistBtn,
-    RegistBtn,
+    RegistBtn
 } from "../../../styles/section01/boards-new/01-boards-style";
 import { useState } from "react";
 import PopUpPage from "./pop/popup";
 
 export default function RegistPage() {
+    const [errorReasons, setErrorReasons] = useState([]);
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [title, setTitle] = useState("");
@@ -50,9 +53,42 @@ export default function RegistPage() {
         setFunc(event.target.value);
     };
 
+    const displayError = (reason, input) => {
+        return errorReasons.includes(reason) && !input;
+    };
+
+    const onUploadImage = (setFunc) => (event) => {
+        const uploadImages = [];
+        uploadImages.push(event.target.value);
+        console.log(uploadImages);
+        setFunc(uploadImages);
+    }
+
+    const onChangeOption = (setFunc) => (event) => {
+        setFunc(event.target.value);
+    };
+
     const clickModal = () => {
-        console.log("1");
         setShowModal(!showModal);
+    };
+
+    const validate = () => {
+        const reasons = [];
+        if (!userName) reasons.push("name");
+
+        if (!userPassword) reasons.push("password");
+
+        if (!title) reasons.push("title");
+
+        if (!content) reasons.push("content");
+
+        if (reasons.length === 0) {
+            alert("등록 성공!");
+            setErrorReasons([]);
+        } else {
+            alert("다시 시도해주세요.");
+            setErrorReasons(reasons);
+        }
     };
 
     return (
@@ -75,7 +111,10 @@ export default function RegistPage() {
                                 <Input
                                     placeholder="이름을 적어주세요"
                                     onChange={onChangeInput(setUserName)}
-                                />
+                                ></Input>
+                                <ErrorValidate isDp={displayError("name", userName)}>
+                                    이름을 적어주세요
+                                </ErrorValidate>
                             </WrapperUser>
                             <WrapperUser column>
                                 <Label>비밀번호</Label>
@@ -83,6 +122,9 @@ export default function RegistPage() {
                                     placeholder="비밀번호를 입력해주세요"
                                     onChange={onChangeInput(setUserPassword)}
                                 />
+                                <ErrorValidate isDp={displayError("password", userPassword)}>
+                                    비밀번호를 적어주세요
+                                </ErrorValidate>
                             </WrapperUser>
                         </WrapperInfo>
                         <Title column>
@@ -92,6 +134,9 @@ export default function RegistPage() {
                                 placeholder="제목을 작성해주세요"
                                 onChange={onChangeInput(setTitle)}
                             ></Input>
+                            <ErrorValidate isDp={displayError("title", title)}>
+                                제목을 적어주세요
+                            </ErrorValidate>
                         </Title>
                         <Content column>
                             <Label>내용</Label>
@@ -99,6 +144,9 @@ export default function RegistPage() {
                                 placeholder="내용을 입력해주세요"
                                 onChange={onChangeInput(setContent)}
                             />
+                            <ErrorValidate isDp={displayError("content", content)}>
+                                내용을 입력해주세요
+                            </ErrorValidate>
                         </Content>
                         <Address column>
                             <Label>주소</Label>
@@ -108,7 +156,10 @@ export default function RegistPage() {
                                     우편번호 검색
                                 </AddressCheckBtn>
                             </AddressCheckWrapper>
-                            <LoadAddressInput />
+                            <LoadAddressInput
+                                defaultValue={address}
+                                readOnly
+                            />
                             <DetailAddressInput />
                         </Address>
                         <Youtube column>
@@ -119,14 +170,17 @@ export default function RegistPage() {
                             <UploadTitle>사진 첨부</UploadTitle>
                             <WrapperUploadBtn>
                                 <UploadBtn>
+                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
                                 <UploadBtn>
+                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
                                 <UploadBtn>
+                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
@@ -139,31 +193,51 @@ export default function RegistPage() {
                                     <OptionRadio
                                         type="radio"
                                         id="youtube"
-                                        value={"youtube"}
+                                        value="youtube"
                                         name="mainOption"
+                                        onChange={onChangeOption(setMainOption)}
                                     />
-                                    <img src="/bt_radio_on.png"></img>
+                                    <OptionImage
+                                        url={
+                                            mainOption === "youtube"
+                                                ? "/bt_radio_on.png"
+                                                : "/Ellipse.png"
+                                        }
+                                    ></OptionImage>
                                     <span>유튜브</span>
                                 </label>
                                 <label htmlFor="image">
                                     <OptionRadio
                                         type="radio"
                                         id="image"
-                                        value={"image"}
+                                        value="image"
                                         name="mainOption"
+                                        onChange={onChangeOption(setMainOption)}
                                     />
-                                    <img src="/bt_radio_on.png"></img>
+                                    <OptionImage
+                                        url={
+                                            mainOption === "image"
+                                                ? "/bt_radio_on.png"
+                                                : "/Ellipse.png"
+                                        }
+                                    ></OptionImage>
                                     <span>이미지</span>
                                 </label>
                             </WrapperOptionRadio>
                         </MainOption>
                         <WrapperRegistBtn>
-                            <RegistBtn>등록하기</RegistBtn>
+                            <RegistBtn onClick={validate}>등록하기</RegistBtn>
                         </WrapperRegistBtn>
                     </Wrapper>
                 </Container>
             </Base>
-            {showModal && <PopUpPage showModal={showModal} clickModal={clickModal}></PopUpPage>}
+            {showModal && (
+                <PopUpPage
+                    showModal={showModal}
+                    clickModal={clickModal}
+                    addrState={[address, setAddress]}
+                ></PopUpPage>
+            )}
         </>
     );
 }
