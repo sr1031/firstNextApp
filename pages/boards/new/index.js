@@ -36,6 +36,9 @@ import {
 } from "../../../styles/section01/boards-new/01-boards-style";
 import { useState } from "react";
 import PopUpPage from "./pop/popup";
+import ReqPopUpPage from "./pop/reqPopup";
+import { mutationOpt } from "./pop/request/graphqlCreateOption";
+import { useMutation } from "@apollo/client";
 
 export default function RegistPage() {
     const [errorReasons, setErrorReasons] = useState([]);
@@ -44,10 +47,14 @@ export default function RegistPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [reqShowModal, setReqShowModal] = useState(false);
+    const [created, setCreated] = useState([]);
     const [address, setAddress] = useState("");
     const [ytLink, setYtLink] = useState("");
     const [image, setImage] = useState([]);
     const [mainOption, setMainOption] = useState("");
+
+    const [createMutation] =  useMutation(mutationOpt);
 
     const onChangeInput = (setFunc) => (event) => {
         setFunc(event.target.value);
@@ -62,7 +69,7 @@ export default function RegistPage() {
         uploadImages.push(event.target.value);
         console.log(uploadImages);
         setFunc(uploadImages);
-    }
+    };
 
     const onChangeOption = (setFunc) => (event) => {
         setFunc(event.target.value);
@@ -85,10 +92,26 @@ export default function RegistPage() {
         if (reasons.length === 0) {
             alert("등록 성공!");
             setErrorReasons([]);
+            return true;
         } else {
             alert("다시 시도해주세요.");
             setErrorReasons(reasons);
+            return false;
         }
+    };
+
+    const clickReqModal = async () => {
+        validate();
+        const mRes = await createMutation({
+            variables: {
+                writer: userName,
+                title: title,
+                contents: content
+            }
+        });
+
+        setCreated([mRes.data.createBoard]);
+        setReqShowModal(!reqShowModal);
     };
 
     return (
@@ -112,7 +135,9 @@ export default function RegistPage() {
                                     placeholder="이름을 적어주세요"
                                     onChange={onChangeInput(setUserName)}
                                 ></Input>
-                                <ErrorValidate isDp={displayError("name", userName)}>
+                                <ErrorValidate
+                                    isDp={displayError("name", userName)}
+                                >
                                     이름을 적어주세요
                                 </ErrorValidate>
                             </WrapperUser>
@@ -122,7 +147,12 @@ export default function RegistPage() {
                                     placeholder="비밀번호를 입력해주세요"
                                     onChange={onChangeInput(setUserPassword)}
                                 />
-                                <ErrorValidate isDp={displayError("password", userPassword)}>
+                                <ErrorValidate
+                                    isDp={displayError(
+                                        "password",
+                                        userPassword
+                                    )}
+                                >
                                     비밀번호를 적어주세요
                                 </ErrorValidate>
                             </WrapperUser>
@@ -144,7 +174,9 @@ export default function RegistPage() {
                                 placeholder="내용을 입력해주세요"
                                 onChange={onChangeInput(setContent)}
                             />
-                            <ErrorValidate isDp={displayError("content", content)}>
+                            <ErrorValidate
+                                isDp={displayError("content", content)}
+                            >
                                 내용을 입력해주세요
                             </ErrorValidate>
                         </Content>
@@ -170,17 +202,29 @@ export default function RegistPage() {
                             <UploadTitle>사진 첨부</UploadTitle>
                             <WrapperUploadBtn>
                                 <UploadBtn>
-                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
+                                    <FileInput
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={onUploadImage(setImage)}
+                                    ></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
                                 <UploadBtn>
-                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
+                                    <FileInput
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={onUploadImage(setImage)}
+                                    ></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
                                 <UploadBtn>
-                                    <FileInput type="file" accept="image/*" onChange={onUploadImage(setImage)}></FileInput>
+                                    <FileInput
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={onUploadImage(setImage)}
+                                    ></FileInput>
                                     <div>+</div>
                                     <div>Upload</div>
                                 </UploadBtn>
@@ -226,15 +270,22 @@ export default function RegistPage() {
                             </WrapperOptionRadio>
                         </MainOption>
                         <WrapperRegistBtn>
-                            <RegistBtn onClick={validate}>등록하기</RegistBtn>
+                            <RegistBtn onClick={clickReqModal}>
+                                등록하기
+                            </RegistBtn>
                         </WrapperRegistBtn>
                     </Wrapper>
                 </Container>
             </Base>
+            {reqShowModal && (
+                <ReqPopUpPage
+                    modalState={[reqShowModal, setReqShowModal]}
+                    inputs={created}
+                ></ReqPopUpPage>
+            )}
             {showModal && (
                 <PopUpPage
-                    showModal={showModal}
-                    clickModal={clickModal}
+                    modalState={[showModal, setShowModal]}
                     addrState={[address, setAddress]}
                 ></PopUpPage>
             )}

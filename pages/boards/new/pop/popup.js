@@ -8,7 +8,8 @@ import {
 } from "../../../../styles/section01/boards-new/popup-style";
 
 const PopUpPage = (props) => {
-    const { clickModal, showModal, addrState } = props;
+    const { modalState, addrState } = props;
+    const [showModal, clickModal] = modalState;
     const [addr, setAddr] = addrState;
     const [ inputAddr, setInputAddr ] = useState("");
     const onChangeAddrInModal = (event) => {

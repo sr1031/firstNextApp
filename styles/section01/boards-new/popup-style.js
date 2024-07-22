@@ -17,12 +17,13 @@ export const Modal = styled.div`
 export const Popup = styled.div`
     width: 600px;
     height: 540px;
+    padding: 0px 16px;
     background-color: white;
     ${cssFlexBox}
-    font-size: 24px;
+    font-size: 16px;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
+    overflow-wrap: break-word;
     border-radius: 20px;
     position: relative;
 `;
