@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Global } from "@emotion/react";
-import { global } from "../../../styles/section01/boards-new/globals";
+import { global } from "../../../styles/boards/globals";
 import {
     Base,
     Container,
@@ -33,28 +33,31 @@ import {
     OptionRadio,
     WrapperRegistBtn,
     RegistBtn
-} from "../../../styles/section01/boards-new/01-boards-style";
+} from "../../../styles/boards/boards-new/01-boards-style";
 import { useState } from "react";
-import PopUpPage from "./pop/popup";
-import ReqPopUpPage from "./pop/reqPopup";
-import { mutationOpt } from "./pop/request/graphqlCreateOption";
+import PopUpPage from "../pop/popup";
+import { mutationOpt } from "../pop/request/graphqlCreateOption";
 import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+import LoadingPopup from "../pop/loadingPopup";
 
-export default function RegistPage() {
+export default function BoardRegistPage() {
     const [errorReasons, setErrorReasons] = useState([]);
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [reqShowModal, setReqShowModal] = useState(false);
-    const [created, setCreated] = useState([]);
+    const [loadingShowModal, setLoadingShowModal] = useState(false);
+    const [created, setCreated] = useState({});
     const [address, setAddress] = useState("");
     const [ytLink, setYtLink] = useState("");
     const [image, setImage] = useState([]);
     const [mainOption, setMainOption] = useState("");
 
-    const [createMutation] =  useMutation(mutationOpt);
+    const router = useRouter();
+
+    const [createMutation] = useMutation(mutationOpt);
 
     const onChangeInput = (setFunc) => (event) => {
         setFunc(event.target.value);
@@ -90,11 +93,9 @@ export default function RegistPage() {
         if (!content) reasons.push("content");
 
         if (reasons.length === 0) {
-            alert("등록 성공!");
             setErrorReasons([]);
             return true;
         } else {
-            alert("다시 시도해주세요.");
             setErrorReasons(reasons);
             return false;
         }
@@ -102,16 +103,26 @@ export default function RegistPage() {
 
     const clickReqModal = async () => {
         validate();
-        const mRes = await createMutation({
-            variables: {
-                writer: userName,
-                title: title,
-                contents: content
-            }
-        });
+        setLoadingShowModal((prev) => !prev);
+        try {
+            const mRes = await createMutation({
+                variables: {
+                    writer: userName,
+                    title: title,
+                    contents: content
+                }
+            });
 
-        setCreated([mRes.data.createBoard]);
-        setReqShowModal(!reqShowModal);
+            setCreated((prev) => {
+                const res = { ...mRes.data.createBoard };
+                return res;
+            });
+
+            router.push(`/boards/${mRes.data.createBoard.number}`);
+        } catch (error) {
+            console.log(error.message);
+            setLoadingShowModal((prev) => !prev);
+        }
     };
 
     return (
@@ -196,7 +207,10 @@ export default function RegistPage() {
                         </Address>
                         <Youtube column>
                             <Label>유튜브</Label>
-                            <YoutubeLinkInput placeholder="링크를 복사해주세요" />
+                            <YoutubeLinkInput
+                                defaultValue={ytLink}
+                                placeholder="링크를 복사해주세요"
+                            />
                         </Youtube>
                         <ImageUpload column>
                             <UploadTitle>사진 첨부</UploadTitle>
@@ -277,11 +291,9 @@ export default function RegistPage() {
                     </Wrapper>
                 </Container>
             </Base>
-            {reqShowModal && (
-                <ReqPopUpPage
-                    modalState={[reqShowModal, setReqShowModal]}
-                    inputs={created}
-                ></ReqPopUpPage>
+            {loadingShowModal && (
+                <LoadingPopup modalState={[loadingShowModal, setLoadingShowModal]}>
+                </LoadingPopup>
             )}
             {showModal && (
                 <PopUpPage

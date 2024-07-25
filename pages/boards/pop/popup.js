@@ -5,7 +5,7 @@ import {
     AddressInput,
     CloseBtn,
     Btn
-} from "../../../../styles/section01/boards-new/popup-style";
+} from "../../../styles/boards/boards-new/popup/popup-style";
 
 const PopUpPage = (props) => {
     const { modalState, addrState } = props;

@@ -34,9 +34,9 @@ export default function MyGraphQLTest() { // graphql loading에 대한 고찰
     const createOnClick = () => {
         createBoard({
             variables: {
-                writer: "허리",
-                title: "언제까지 일해야 할까요?",
-                contents: "이제 저도 좀 쉬고 싶습니다. 어떻게 해야 할까요?.."
+                writer: "발",
+                title: "언제까지 버텨야 할까요?",
+                contents: "이제 저도 머리 꼭대기에 있고 싶습니다. 어떻게 해야 할까요..?"
             }
         }).then((response) => {
             setNumber(response.data.createBoard.number);

@@ -3,12 +3,11 @@ import {
     Modal,
     Popup,
     CloseBtn
-} from "../../../../styles/section01/boards-new/popup-style";
+} from "../../../styles/boards/boards-new/popup/popup-style";
 import { queryOpt } from "./request/graphqlFetchOption";
 
-const ReqPopUpPage = (props) => {
-    const { modalState, inputs } = props;
-    const [res] = inputs;
+const ReqPopUpPage = ({modalState, inputs}) => {
+    const res = inputs;
     const [showModal, clickModal] = modalState;
 
     const closeModal = () => {

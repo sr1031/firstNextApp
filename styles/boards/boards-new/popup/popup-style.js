@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { cssFlexBox, cssTextInput, fadeCss } from "./insertCss";
+import { cssFlexBox, cssTextInput, fadeCss } from "../../insertCss";
 
 export const Modal = styled.div`
     width: 100%;
@@ -12,6 +12,18 @@ export const Modal = styled.div`
     justify-content: center;
     align-items: center;
     ${fadeCss}
+`;
+
+export const NoFadeModal = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: #9191918f;
+    position: fixed;
+    top: 0;
+    left: 0;
+    ${cssFlexBox}
+    justify-content: center;
+    align-items: center;
 `;
 
 export const Popup = styled.div`
