@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { cssFlexBox } from "../insertCss";
+import { cssFlexBox } from "../../commons/insertCss";
 
 export const ContainerHeader = styled.div`
     width: 996px;
@@ -17,7 +17,7 @@ export const WrapperHeaderMain = styled.div`
 `;
 
 export const ProfileAndInfo = styled.div`
-    width: calc(56px + 12px + 126px);
+    width: 300px;
     height: 56px;
     ${cssFlexBox}
 `

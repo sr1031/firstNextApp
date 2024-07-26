@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { cssFlexBox, cssTextInput, fadeCss } from "../../insertCss";
+import { cssFlexBox, cssTextInput, fadeCss } from "../../../commons/insertCss";
 
 export const Modal = styled.div`
     width: 100%;

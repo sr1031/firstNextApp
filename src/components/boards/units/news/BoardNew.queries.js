@@ -1,4 +1,16 @@
-import { gql } from "@apollo/client";
+import {gql} from '@apollo/client';
+
+export const queryOpt = gql`
+query fetchByNumber($number: Int) {
+    fetchBoard(number: $number) {
+        number
+        writer
+        title
+        contents
+    }
+}
+`;
+
 export const mutationOpt = gql`
     mutation createNewBoard(
         $writer: String
@@ -12,4 +24,3 @@ export const mutationOpt = gql`
         }
     }
 `;
-

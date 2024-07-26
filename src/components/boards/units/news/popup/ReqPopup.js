@@ -3,16 +3,11 @@ import {
     Modal,
     Popup,
     CloseBtn
-} from "../../../styles/boards/boards-new/popup/popup-style";
-import { queryOpt } from "./request/graphqlFetchOption";
+} from "../../../../../../styles/boards/boards-new/popup/popup-style";
+import { queryOpt } from "../BoardNew.queries";
 
-const ReqPopUpPage = ({modalState, inputs}) => {
-    const res = inputs;
+const ReqPopUpPage = ({modalState, res}) => {
     const [showModal, clickModal] = modalState;
-
-    const closeModal = () => {
-        clickModal(!showModal);
-    };
 
     const q = useQuery(queryOpt, {
         variables: {
@@ -23,7 +18,7 @@ const ReqPopUpPage = ({modalState, inputs}) => {
     return (
         <Modal show={showModal}>
             <Popup column>
-                <CloseBtn onClick={closeModal}>❌</CloseBtn>
+                <CloseBtn onClick={clickModal("queryModal")}>❌</CloseBtn>
                 <div>
                     createBoardNumber:{res.number}
                     <br />

@@ -1,4 +1,4 @@
-import { MyInput, MySpan } from "../../../styles/section01/01-02-emotion/01-02-emotion-style";
+import { MyInput, MySpan } from "../../../src/components/01-02-emotion/01-02-emotion-style";
 
 export default function EmotionPage() {
     return (

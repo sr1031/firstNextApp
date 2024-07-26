@@ -1,11 +1,11 @@
 import { Global } from "@emotion/react";
 import Head from "next/head";
-import { global } from "../../styles/boards/globals";
+import { global } from "./globals";
 import {
     Base,
     Container,
     Wrapper
-} from "../../styles/boards/boards-new/01-boards-style";
+} from "../units/news/BoardNew.style";
 
 export default function Frame({pageTitle, children}) {
     return (

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { cssFlexBox, cssTextInput } from "../insertCss";
+import { cssFlexBox, cssTextInput } from "../../commons/insertCss";
 
 export const Base = styled.div`
     width: 100vi;
