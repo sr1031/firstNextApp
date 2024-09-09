@@ -1,25 +1,27 @@
-import { useState } from "react";
-import { mutationOpt } from "./BoardNew.queries";
-import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import BoardRegistPageUI from "./BoardNew.presenter";
+import { useState } from 'react';
+import { mutationOpt } from './BoardNew.queries';
+import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
+import BoardRegistPageUI from './BoardNew.presenter';
 
 export default function BoardRegistPageWrite() {
     const [allModals, setAllModals] = useState({
         showModal: false,
-        loadingModal: false
+        loadingModal: false,
     });
 
     const [allInputValues, setAllInputValues] = useState({
-        userName: "",
-        userPassword: "",
-        title: "",
-        content: "",
-        mainAddress: "",
-        detailAddress: "",
-        ytLink: "",
+        userEmail: '',
+        userName: '',
+        userPassword: '',
+        userPasswordCheck: '',
+        title: '',
+        content: '',
+        mainAddress: '',
+        detailAddress: '',
+        ytLink: '',
         images: [],
-        mainOption: ""
+        mainOption: '',
     });
 
     //--------
@@ -29,15 +31,16 @@ export default function BoardRegistPageWrite() {
     const [__createMutation] = useMutation(mutationOpt);
 
     const __validate = () => {
-        const { userName, userPassword, title, content } = allInputValues;
+        const { userEmail, userName, userPassword, userPasswordCheck } =
+            allInputValues;
         const _reasons = [];
-        if (!userName) _reasons.push("name");
+        if (!userEmail) _reasons.push('email');
 
-        if (!userPassword) _reasons.push("password");
+        if (!userName) _reasons.push('name');
 
-        if (!title) _reasons.push("title");
+        if (!userPassword) _reasons.push('password');
 
-        if (!content) _reasons.push("content");
+        if (!userPasswordCheck) _reasons.push('passwordCheck');
 
         if (_reasons.length === 0) {
             __setErrorReasons([]);
@@ -50,20 +53,19 @@ export default function BoardRegistPageWrite() {
 
     const __changeLoadingModal = () => {
         setAllModals((prev) => {
-            return { ...prev, ["loadingModal"]: !prev["loadingModal"] };
+            return { ...prev, ['loadingModal']: !prev['loadingModal'] };
         });
     };
 
     //------
 
+    const onClickInput = (placeholder) => (event) => {
+        event.target.placeholder = placeholder;
+    }
+
     const onChangeInput = (event) => {
         setAllInputValues((prev) => {
-            if (!event.target.name.includes("image"))
-                return { ...prev, [event.target.name]: event.target.value };
-            else {
-                const nowImages = [...prev.images, event.target.value];
-                return { ...prev, ["images"]: nowImages };
-            }
+            return { ...prev, [event.target.name]: event.target.value };
         });
     };
 
@@ -80,7 +82,7 @@ export default function BoardRegistPageWrite() {
 
     const clickReqModal = async () => {
         if (!__validate()) {
-            console.log("다시 입력바람.");
+            console.log('다시 입력바람.');
             return;
         }
 
@@ -90,8 +92,8 @@ export default function BoardRegistPageWrite() {
                 variables: {
                     writer: allInputValues.userName,
                     title: allInputValues.title,
-                    contents: allInputValues.content
-                }
+                    contents: allInputValues.content,
+                },
             });
 
             __router.push(`/boards/${mRes.data.createBoard.number}`);
@@ -104,8 +106,7 @@ export default function BoardRegistPageWrite() {
     return (
         <BoardRegistPageUI
             states={[allInputValues, allModals]}
-            funcs={[onChangeInput, onModalShow, clickReqModal, displayError]}
+            funcs={[onClickInput, onChangeInput, onModalShow, clickReqModal, displayError]}
         />
     );
 }
-

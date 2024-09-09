@@ -1,17 +1,19 @@
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from '@emotion/react';
 
 export const cssFlexBox = (props) =>
     css`
         display: flex;
-        flex-direction: ${props.column ? "column" : "row"};
+        flex-direction: ${props.column ? 'column' : 'row'};
     `;
 
 export const cssTextInput = css`
     width: 100%;
-    height: 52px;
-    border: 1px solid #bdbdbd;
-    text-indent: 30px;
+    height: 48px;
+    border-style: hidden;
+    border-bottom: 1px solid #bdbdbd;
+    text-indent: 10px;
     font-size: 16px;
+    margin-bottom: 5px;
     &::placeholder {
         color: #bdbdbd;
         font-size: 16px;
@@ -39,8 +41,7 @@ const fadeOut = keyframes`
 `;
 
 export const fadeCss = (props) => css`
-    visibility: ${props.show? "visible" : "hidden"};
-    animation: ${props.show? fadeIn : fadeOut} 0.7s ease-in-out;
+    visibility: ${props.show ? 'visible' : 'hidden'};
+    animation: ${props.show ? fadeIn : fadeOut} 0.7s ease-in-out;
     transition: visibility 0.7s ease-in-out;
 `;
-

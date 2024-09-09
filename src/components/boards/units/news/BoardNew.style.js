@@ -35,7 +35,7 @@ export const WrapperInfo = styled.div`
 
 export const WrapperUser = styled.div`
     ${cssFlexBox}
-    width: 482px;
+    margin-bottom: 30px;
 `;
 
 export const Title = styled.div`
@@ -44,10 +44,13 @@ export const Title = styled.div`
     margin-bottom: 40px;
 `;
 
+export const LabelWrapper = styled.div`
+    ${cssFlexBox}
+`;
+
 export const Label = styled.div`
     font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 16px;
+    font-weight: 800;
 `;
 
 export const Input = styled.input`
@@ -58,6 +61,8 @@ export const Input = styled.input`
 export const ErrorValidate = styled.div`
     color: red;
     font-size: 16px;
+    text-indent: 8px;
+    margin-top: 2px;
     display: ${(props) => props.isDp? "block" : "none"};
 `;
 
@@ -71,7 +76,7 @@ export const TextBox = styled.textarea`
     ${cssTextInput}
     height: 480px;
     resize: none;
-    padding: 20px 0px;
+    padding: 20px 30px;
 `;
 
 export const Address = styled.div`
@@ -91,14 +96,12 @@ export const AddressCheckWrapper = styled.div`
 export const PostNumInput = styled.input`
     ${cssTextInput}
     width: 77px;
-    height: 52px;
     pointer-events: none;
     color: #bdbdbd;
 `;
 
 export const AddressCheckBtn = styled.button`
     width: 124px;
-    height: 52px;
     background-color: black;
     margin-left: 16px;
     color: white;
@@ -107,14 +110,12 @@ export const AddressCheckBtn = styled.button`
 
 export const LoadAddressInput = styled.input`
     ${cssTextInput}
-    height: 52px;
     margin-bottom: 16px;
     pointer-events: none;
 `;
 
 export const DetailAddressInput = styled.input`
     ${cssTextInput}
-    height: 52px;
 `;
 
 export const Youtube = styled.div`
@@ -130,7 +131,6 @@ export const YoutubeLinkInput = styled.input`
     font-weight: 400;
     background-color: white;
     font-size: 16px;
-    text-indent: 20px;
 `;
 
 export const ImageUpload = styled.div`
