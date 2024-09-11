@@ -1,6 +1,6 @@
 import { Global } from "@emotion/react";
 import Head from "next/head";
-import { global } from "./globals";
+import { global } from "../../globals";
 import {
     Base,
     Container,

@@ -1,4 +1,4 @@
-import { Container, Wrapper } from "/styles/section04/04-03-dynamic-routing-mutation/loading/loading-style.js";
+import { Container, Wrapper } from "../../../../src/components/boards/units/news/popup/loading/LoadingPopup.style";
 
 export default function LoadingPage() {
     return (

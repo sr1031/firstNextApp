@@ -4,15 +4,16 @@ import { useRef, useState } from "react";
 
 export default function DynamicRoutingMutationPage() {
     const router = useRouter();
-    const [writer, setWriter] = useState("");
-    const [title, setTitle] = useState("");
-    const [contents, setContents] = useState("");
+    const [allInputs, setAllInputs] = useState({
+        writer: "",
+        title: "",
+        contents: ""
+    });
+
+    const [isTwinkle, setIsTwinkle] = useState(false);
+
     const errorRef = useRef({});
-    const divArray = [
-        [setWriter, "writer"],
-        [setTitle, "title"],
-        [setContents, "contents"]
-    ];
+    const divArray = ["writer", "title", "contents"];
 
     const mutationOpt = gql`
         mutation createABoard(
@@ -31,36 +32,21 @@ export default function DynamicRoutingMutationPage() {
     const [createBoardMutation, info] = useMutation(mutationOpt);
 
     const onClick = () => {
-        const errorDivs = [];
-        if (!/^.*[ㄱ-힣a-z]+.*$/.test(writer)) {
-            errorDivs.push("writer");
-            console.log("writer");
-        }
+        let isValidated = true;
+        divArray.forEach((v) => {
+            if (!/^.*[ㄱ-힣a-z]+.*$/.test(allInputs[v])) {
+                errorRef.current[v].style.display = "block";
+                isValidated = false;
+            } else errorRef.current[v].style.display = "none";
+        });
 
-        if (!/^.*[ㄱ-힣a-z]+.*$/.test(title)) {
-            errorDivs.push("title");
-            console.log("title");
-        }
-
-        if (!/^.*[ㄱ-힣a-z]+.*$/.test(contents)) {
-            errorDivs.push("contents");
-            console.log("contents");
-        }
-
-        if (errorDivs.length !== 0) {
-            divArray.forEach((v) => {
-                if (errorDivs.includes(v[1]))
-                    errorRef.current[v[1]].style.display = "block";
-                else errorRef.current[v[1]].style.display = "none";
-            });
-            return;
-        }
+        if (!isValidated) return;
 
         createBoardMutation({
             variables: {
-                writer: writer,
-                title: title,
-                contents: contents
+                writer: allInputs["writer"],
+                title: allInputs["title"],
+                contents: allInputs["contents"]
             }
         })
             .then((res) => {
@@ -79,30 +65,44 @@ export default function DynamicRoutingMutationPage() {
         router.push("/section04/04-03-dynamic-routing-mutation/loading");
     };
 
-    const onChange = (setFunc) => (e) => {
-        setFunc(e.target.value);
+    const onChange = (name) => (e) => {
+        setAllInputs((prev) => {
+            return { ...prev, [name]: e.target.value };
+        });
+
+        let isCompleted = true;
+
+        divArray.forEach((v) => {
+            if (name === v)
+                isCompleted = isCompleted && e.target.value;
+
+            else
+                isCompleted = isCompleted && allInputs[v];
+        });
+
+        setIsTwinkle(isCompleted);
     };
 
     return (
         // [...Array(3).keys()] == [0,1,2] 로 인덱스만 임시 생성 가능
         <>
             {divArray.map((v) => (
-                <div key={v[1]}>
-                    {v[1]}:{" "}
+                <div key={v}>
+                    {v}:{" "}
                     <input
                         type="text"
-                        onChange={onChange(v[0])}
+                        onChange={onChange(v)}
                     />
                     <br></br>
                     <div
-                        ref={(el) => (errorRef.current[v[1]] = el)}
+                        ref={(el) => (errorRef.current[v] = el)}
                         style={{ color: "red", display: "none" }}
                     >
-                        {v[1]} 입력 필수!
+                        {v} 입력 필수!
                     </div>
                 </div>
             ))}
-            <button onClick={onClick}>신규 게시물 등록!</button>
+            <button style={{backgroundColor: isTwinkle? "yellow" : ""}} onClick={onClick}>신규 게시물 등록!</button>
         </>
     );
 }
